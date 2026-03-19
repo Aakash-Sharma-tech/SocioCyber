@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Campaign Detection System{% endblock %}</title>
+    
+    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <i class="fas fa-shield-alt"></i>
+                <span>Campaign Detector</span>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="{{ url_for('dashboard') }}" class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('insights') }}" class="nav-link {% if request.endpoint == 'insights' %}active{% endif %}">
+                        <i class="fas fa-brain"></i>
+                        AI Insights
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('visualization') }}" class="nav-link {% if request.endpoint == 'visualization' %}active{% endif %}">
+                        <i class="fas fa-cube"></i>
+                        3D Visualization
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('history') }}" class="nav-link {% if request.endpoint == 'history' %}active{% endif %}">
+                        <i class="fas fa-history"></i>
+                        History
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('chatbot') }}" class="nav-link {% if request.endpoint == 'chatbot' %}active{% endif %}">
+                        <i class="fas fa-robot"></i>
+                        AI Chat
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="nav-controls">
+                <button id="darkModeToggle" class="dark-mode-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            {% block content %}{% endblock %}
+        </main>
+        
+        <!-- Alert Container -->
+        <div id="alertContainer" class="alert-container"></div>
+    </div>
+    
+    <!-- Base JavaScript -->
+    <script>
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+        
+        // Initialize theme preference (dark by default)
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+        if (theme === 'dark') {
+            body.classList.add('dark-mode');
+            body.classList.remove('light-mode');
+            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+            body.classList.add('light-mode');
+            body.classList.remove('dark-mode');
+            darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+        
+        darkModeToggle.addEventListener('click', () => {
+            const currentlyDark = body.classList.contains('dark-mode');
+            if (currentlyDark) {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                localStorage.setItem('theme', 'light');
+                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                body.classList.add('dark-mode');
+                body.classList.remove('light-mode');
+                localStorage.setItem('theme', 'dark');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        });
+        
+        // Alert system
+        function showAlert(message, type = 'info') {
+            const alertContainer = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `
+                <i class="fas fa-info-circle"></i>
+                <span>${message}</span>
+                <button onclick="this.parentElement.remove()" class="alert-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            alertContainer.appendChild(alert);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (alert.parentElement) {
+                    alert.remove();
+                }
+            }, 5000);
+        }
+        
+        // Loading indicator
+        function showLoading(element) {
+            element.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+            element.disabled = true;
+        }
+        
+        function hideLoading(element, originalText) {
+            element.innerHTML = originalText;
+            element.disabled = false;
+        }
+    </script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html>

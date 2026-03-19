@@ -1,0 +1,554 @@
+{% extends "base.html" %}
+
+{% block title %}3D Visualization - Campaign Detection System{% endblock %}
+
+{% block content %}
+<div class="visualization-container">
+    <!-- Header -->
+    <div class="visualization-header">
+        <h1 class="visualization-title">
+            <i class="fas fa-cube"></i>
+            3D Data Visualization
+        </h1>
+        <p class="visualization-subtitle">Interactive 3D analysis of propaganda patterns and sentiment trends</p>
+        
+        <div class="visualization-controls">
+            <button id="resetView" class="btn btn-secondary">
+                <i class="fas fa-sync"></i>
+                Reset View
+            </button>
+            <button id="exportData" class="btn btn-primary">
+                <i class="fas fa-download"></i>
+                Export Data
+            </button>
+        </div>
+    </div>
+    
+    <!-- 3D Visualization Grid -->
+    <div class="viz-grid">
+        <!-- 3D Scatter Plot -->
+        <div class="viz-card featured">
+            <div class="viz-header">
+                <h3><i class="fas fa-scatter-chart"></i> Emotion-Sentiment-Propaganda Matrix</h3>
+                <div class="viz-info">
+                    <button class="info-btn" onclick="showVisualizationInfo('scatter')">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="viz-content">
+                <div id="scatter3d" class="plotly-chart"></div>
+                <div class="viz-legend">
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #ff6b6b;"></span>
+                        <span>High Propaganda</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #4ecdc4;"></span>
+                        <span>Low Propaganda</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #45b7d1;"></span>
+                        <span>Neutral Content</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 3D Keyword Bubble Chart -->
+        <div class="viz-card">
+            <div class="viz-header">
+                <h3><i class="fas fa-cloud"></i> 3D Keyword Clusters</h3>
+                <div class="viz-controls">
+                    <select id="keywordFilter" class="form-control">
+                        <option value="all">All Keywords</option>
+                        <option value="propaganda">Propaganda Related</option>
+                        <option value="sentiment">Sentiment Related</option>
+                    </select>
+                </div>
+            </div>
+            <div class="viz-content">
+                <div id="keyword3d" class="plotly-chart"></div>
+            </div>
+        </div>
+        
+        <!-- 3D Risk Heatmap -->
+        <div class="viz-card">
+            <div class="viz-header">
+                <h3><i class="fas fa-thermometer-half"></i> Risk Assessment Matrix</h3>
+                <div class="risk-indicator">
+                    <span class="risk-level medium">MEDIUM RISK</span>
+                </div>
+            </div>
+            <div class="viz-content">
+                <div id="risk3d" class="plotly-chart"></div>
+                <div class="risk-metrics">
+                    <div class="risk-metric">
+                        <span class="metric-label">Platform Risk</span>
+                        <div class="metric-bar">
+                            <div class="metric-fill" style="width: 68%;"></div>
+                        </div>
+                        <span class="metric-value">68%</span>
+                    </div>
+                    <div class="risk-metric">
+                        <span class="metric-label">Content Risk</span>
+                        <div class="metric-bar">
+                            <div class="metric-fill" style="width: 75%;"></div>
+                        </div>
+                        <span class="metric-value">75%</span>
+                    </div>
+                    <div class="risk-metric">
+                        <span class="metric-label">Temporal Risk</span>
+                        <div class="metric-bar">
+                            <div class="metric-fill" style="width: 54%;"></div>
+                        </div>
+                        <span class="metric-value">54%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 3D Time Series -->
+        <div class="viz-card">
+            <div class="viz-header">
+                <h3><i class="fas fa-clock"></i> Temporal Pattern Analysis</h3>
+                <div class="time-controls">
+                    <button class="time-btn active" data-period="24h">24H</button>
+                    <button class="time-btn" data-period="7d">7D</button>
+                    <button class="time-btn" data-period="30d">30D</button>
+                </div>
+            </div>
+            <div class="viz-content">
+                <div id="timeline3d" class="plotly-chart"></div>
+            </div>
+        </div>
+        
+        <!-- Platform Comparison -->
+        <div class="viz-card">
+            <div class="viz-header">
+                <h3><i class="fas fa-balance-scale"></i> Cross-Platform Analysis</h3>
+            </div>
+            <div class="viz-content">
+                <div id="platform3d" class="plotly-chart"></div>
+                <div class="platform-stats">
+                    <div class="platform-stat">
+                        <i class="fab fa-twitter"></i>
+                        <div class="stat-info">
+                            <span class="stat-name">Twitter</span>
+                            <span class="stat-value">156 posts</span>
+                        </div>
+                    </div>
+                    <div class="platform-stat">
+                        <i class="fab fa-reddit"></i>
+                        <div class="stat-info">
+                            <span class="stat-name">Reddit</span>
+                            <span class="stat-value">89 posts</span>
+                        </div>
+                    </div>
+                    <div class="platform-stat">
+                        <i class="fas fa-newspaper"></i>
+                        <div class="stat-info">
+                            <span class="stat-name">News</span>
+                            <span class="stat-value">34 articles</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Network Analysis -->
+        <div class="viz-card featured">
+            <div class="viz-header">
+                <h3><i class="fas fa-project-diagram"></i> Coordination Network</h3>
+                <div class="network-controls">
+                    <button id="animateNetwork" class="btn btn-sm">
+                        <i class="fas fa-play"></i>
+                        Animate
+                    </button>
+                </div>
+            </div>
+            <div class="viz-content">
+                <div id="network3d" class="plotly-chart"></div>
+                <div class="network-info">
+                    <div class="network-metric">
+                        <span class="metric-label">Connected Accounts</span>
+                        <span class="metric-value">47</span>
+                    </div>
+                    <div class="network-metric">
+                        <span class="metric-label">Coordination Score</span>
+                        <span class="metric-value">0.73</span>
+                    </div>
+                    <div class="network-metric">
+                        <span class="metric-label">Clusters Detected</span>
+                        <span class="metric-value">8</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Visualization Info Modal -->
+    <div id="vizInfoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Visualization Information</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let charts = {};
+    let last3DData = [];
+    const plotIds = ['scatter3d','keyword3d','risk3d','timeline3d','platform3d','network3d'];
+    const defaultCamera = {eye: {x: 1.25, y: 1.25, z: 1.25}, center: {x: 0, y: 0, z: 0}, up: {x: 0, y: 0, z: 1}};
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeVisualizations();
+        setupEventListeners();
+    });
+    
+    function initializeVisualizations() {
+        // Load 3D data and create visualizations
+        fetch('/api/3d-data')
+            .then(response => response.json())
+            .then(data => {
+                last3DData = data;
+                createScatter3D(data);
+                createKeyword3D(data);
+                createRisk3D();
+                createTimeline3D();
+                createPlatform3D(data);
+                createNetwork3D();
+            })
+            .catch(error => {
+                console.error('Error loading 3D data:', error);
+                showAlert('Error loading visualization data', 'error');
+            });
+    }
+    
+    function createScatter3D(data) {
+        const trace = {
+            x: data.map(d => d.x),
+            y: data.map(d => d.y),
+            z: data.map(d => d.z),
+            mode: 'markers',
+            marker: {
+                size: data.map(d => d.size),
+                color: data.map(d => d.color),
+                opacity: 0.7,
+                line: {
+                    color: 'rgb(204, 204, 204)',
+                    width: 1
+                }
+            },
+            type: 'scatter3d',
+            text: data.map(d => `Platform: ${d.platform}<br>Sentiment: ${d.sentiment}<br>Emotion: ${d.emotion}`),
+            hovertemplate: '<b>%{text}</b><br>X: %{x}<br>Y: %{y}<br>Z: %{z}<extra></extra>'
+        };
+        
+        const layout = {
+            title: '',
+            scene: {
+                xaxis: { title: 'Sentiment Score' },
+                yaxis: { title: 'Toxicity Level' },
+                zaxis: { title: 'Propaganda Score' }
+            },
+            paper_bgcolor: 'transparent',
+            plot_bgcolor: 'transparent',
+            font: { color: '#ffffff' }
+        };
+        
+        Plotly.newPlot('scatter3d', [trace], layout, {responsive: true});
+        charts.scatter3d = {layout};
+    }
+    
+    function createKeyword3D(data) {
+        // Create keyword bubble chart
+        const keywords = ['democracy', 'election', 'propaganda', 'corruption', 'media', 'freedom'];
+        const keywordData = keywords.map((keyword, i) => ({
+            x: Math.sin(i * Math.PI / 3) * (i + 1),
+            y: Math.cos(i * Math.PI / 3) * (i + 1),
+            z: Math.random() * 5,
+            size: Math.random() * 30 + 10,
+            keyword: keyword
+        }));
+        
+        const trace = {
+            x: keywordData.map(d => d.x),
+            y: keywordData.map(d => d.y),
+            z: keywordData.map(d => d.z),
+            mode: 'markers+text',
+            marker: {
+                size: keywordData.map(d => d.size),
+                color: keywordData.map((d, i) => i),
+                colorscale: 'Viridis',
+                opacity: 0.8
+            },
+            text: keywordData.map(d => d.keyword),
+            textposition: 'middle center',
+            type: 'scatter3d'
+        };
+        
+        const layout = {
+            title: '',
+            scene: {
+                xaxis: { showgrid: false, zeroline: false, showticklabels: false },
+                yaxis: { showgrid: false, zeroline: false, showticklabels: false },
+                zaxis: { showgrid: false, zeroline: false, showticklabels: false }
+            },
+            paper_bgcolor: 'transparent',
+            plot_bgcolor: 'transparent',
+            font: { color: '#ffffff' }
+        };
+        
+        Plotly.newPlot('keyword3d', [trace], layout, {responsive: true});
+        charts.keyword3d = {layout};
+    }
+    
+    function createRisk3D() {
+        // Create 3D risk heatmap
+        const x = ['Twitter', 'Reddit', 'News'];
+        const y = ['Propaganda', 'Toxicity', 'Sentiment'];
+        const z = [
+            [0.8, 0.6, 0.7],
+            [0.5, 0.9, 0.6],
+            [0.3, 0.4, 0.8]
+        ];
+        
+        const trace = {
+            z: z,
+            x: x,
+            y: y,
+            type: 'surface',
+            colorscale: 'RdYlBu',
+            reversescale: true
+        };
+        
+        const layout = {
+            title: '',
+            scene: {
+                xaxis: { title: 'Platform' },
+                yaxis: { title: 'Risk Type' },
+                zaxis: { title: 'Risk Level' }
+            },
+            paper_bgcolor: 'transparent',
+            plot_bgcolor: 'transparent',
+            font: { color: '#ffffff' }
+        };
+        
+        Plotly.newPlot('risk3d', [trace], layout, {responsive: true});
+        charts.risk3d = {layout};
+    }
+    
+    function createTimeline3D() {
+        // Create 3D timeline visualization
+        const hours = Array.from({length: 24}, (_, i) => i);
+        const propagandaLevels = hours.map(h => Math.sin(h * Math.PI / 12) * 0.5 + 0.5 + Math.random() * 0.2);
+        
+        const trace = {
+            x: hours,
+            y: propagandaLevels,
+            z: hours.map(h => Math.cos(h * Math.PI / 12) * 0.3),
+            mode: 'lines+markers',
+            marker: { size: 5, color: propagandaLevels, colorscale: 'Plasma' },
+            line: { color: '#4ecdc4', width: 3 },
+            type: 'scatter3d'
+        };
+        
+        const layout = {
+            title: '',
+            scene: {
+                xaxis: { title: 'Hour of Day' },
+                yaxis: { title: 'Propaganda Level' },
+                zaxis: { title: 'Activity Pattern' }
+            },
+            paper_bgcolor: 'transparent',
+            plot_bgcolor: 'transparent',
+            font: { color: '#ffffff' }
+        };
+        
+        Plotly.newPlot('timeline3d', [trace], layout, {responsive: true});
+        charts.timeline3d = {layout};
+    }
+    
+    function createPlatform3D(data) {
+        // Group data by platform
+        const platforms = ['Twitter', 'Reddit', 'News'];
+        const traces = platforms.map((platform, i) => {
+            const platformData = data.filter(d => d.platform === platform);
+            return {
+                x: platformData.map(d => d.x),
+                y: platformData.map(d => d.y),
+                z: platformData.map(d => d.z),
+                mode: 'markers',
+                marker: {
+                    size: 8,
+                    color: ['#1DA1F2', '#FF4500', '#00D100'][i],
+                    opacity: 0.8
+                },
+                name: platform,
+                type: 'scatter3d'
+            };
+        });
+        
+        const layout = {
+            title: '',
+            scene: {
+                xaxis: { title: 'Sentiment' },
+                yaxis: { title: 'Engagement' },
+                zaxis: { title: 'Propaganda Score' }
+            },
+            paper_bgcolor: 'transparent',
+            plot_bgcolor: 'transparent',
+            font: { color: '#ffffff' }
+        };
+        
+        Plotly.newPlot('platform3d', traces, layout, {responsive: true});
+        charts.platform3d = {layout};
+    }
+    
+    function createNetwork3D() {
+        // Create network visualization
+        const nodes = 20;
+        const nodePositions = Array.from({length: nodes}, () => ({
+            x: (Math.random() - 0.5) * 10,
+            y: (Math.random() - 0.5) * 10,
+            z: (Math.random() - 0.5) * 10
+        }));
+        
+        // Create edges
+        const edges = [];
+        for (let i = 0; i < nodes; i++) {
+            for (let j = i + 1; j < nodes; j++) {
+                if (Math.random() > 0.8) {
+                    edges.push({from: i, to: j});
+                }
+            }
+        }
+        
+        // Node trace
+        const nodeTrace = {
+            x: nodePositions.map(p => p.x),
+            y: nodePositions.map(p => p.y),
+            z: nodePositions.map(p => p.z),
+            mode: 'markers',
+            marker: {
+                size: 8,
+                color: nodePositions.map(() => Math.random()),
+                colorscale: 'Viridis'
+            },
+            type: 'scatter3d',
+            name: 'Accounts'
+        };
+        
+        // Edge traces
+        const edgeTraces = edges.map(edge => ({
+            x: [nodePositions[edge.from].x, nodePositions[edge.to].x, null],
+            y: [nodePositions[edge.from].y, nodePositions[edge.to].y, null],
+            z: [nodePositions[edge.from].z, nodePositions[edge.to].z, null],
+            mode: 'lines',
+            line: { color: '#ffffff', width: 2 },
+            type: 'scatter3d',
+            showlegend: false
+        }));
+        
+        const layout = {
+            title: '',
+            scene: {
+                showgrid: false,
+                xaxis: { showticklabels: false },
+                yaxis: { showticklabels: false },
+                zaxis: { showticklabels: false }
+            },
+            paper_bgcolor: 'transparent',
+            plot_bgcolor: 'transparent',
+            font: { color: '#ffffff' }
+        };
+        
+        Plotly.newPlot('network3d', [nodeTrace, ...edgeTraces], layout, {responsive: true});
+        charts.network3d = {layout};
+    }
+    
+    function setupEventListeners() {
+        // Reset view button: reset camera for each 3D plot
+        document.getElementById('resetView').addEventListener('click', function() {
+            plotIds.forEach(id => {
+                try {
+                    Plotly.relayout(id, {'scene.camera': defaultCamera});
+                } catch (e) { /* ignore */ }
+            });
+        });
+        
+        // Export data button: download current 3D dataset as JSON
+        document.getElementById('exportData').addEventListener('click', function() {
+            try {
+                const payload = {
+                    exported_at: new Date().toISOString(),
+                    count: Array.isArray(last3DData) ? last3DData.length : 0,
+                    data: last3DData
+                };
+                const blob = new Blob([JSON.stringify(payload, null, 2)], {type: 'application/json'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `visualization-data-${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showAlert('Visualization data exported successfully!', 'success');
+            } catch (e) {
+                console.error('Export error:', e);
+                showAlert('Failed to export data', 'error');
+            }
+        });
+        
+        // Time period buttons
+        document.querySelectorAll('.time-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelector('.time-btn.active').classList.remove('active');
+                this.classList.add('active');
+                // Update timeline visualization based on selected period
+            });
+        });
+        
+        // Animate network button
+        document.getElementById('animateNetwork').addEventListener('click', function() {
+            showAlert('Network animation would be implemented here', 'info');
+        });
+    }
+    
+    function showVisualizationInfo(type) {
+        const infos = {
+            scatter: {
+                title: 'Emotion-Sentiment-Propaganda Matrix',
+                content: 'This 3D scatter plot shows the relationship between sentiment (X-axis), toxicity level (Y-axis), and propaganda score (Z-axis). Each point represents a post, with size indicating engagement level and color indicating propaganda risk level.'
+            }
+        };
+        
+        const info = infos[type] || {title: 'Visualization Info', content: 'Information not available'};
+        document.getElementById('modalTitle').textContent = info.title;
+        document.getElementById('modalBody').textContent = info.content;
+        document.getElementById('vizInfoModal').style.display = 'flex';
+    }
+    
+    function closeModal() {
+        document.getElementById('vizInfoModal').style.display = 'none';
+    }
+    
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        const modal = document.getElementById('vizInfoModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    }
+</script>
+{% endblock %}

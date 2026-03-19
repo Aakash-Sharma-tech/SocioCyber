@@ -1,0 +1,321 @@
+{% extends "base.html" %}
+
+{% block title %}AI Insights - Campaign Detection System{% endblock %}
+
+{% block content %}
+<div class="insights-container">
+    <!-- Header -->
+    <div class="insights-header">
+        <h1 class="insights-title">
+            <i class="fas fa-brain"></i>
+            AI-Powered Insights
+        </h1>
+        <p class="insights-subtitle">Deep analysis and intelligence on propaganda campaigns</p>
+    </div>
+    
+    <!-- AI Summary Cards -->
+    <div class="insights-grid">
+        <div class="insight-card featured">
+            <div class="insight-header">
+                <div class="insight-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="insight-meta">
+                    <h3>AI Analysis Summary</h3>
+                    <span class="timestamp">Updated 5 minutes ago</span>
+                </div>
+            </div>
+            <div class="insight-content">
+                <p class="insight-text" id="insightSummary">Loading summary…</p>
+                <div class="insight-metrics">
+                    <div class="metric">
+                        <span class="metric-value" id="metricSimilarity">0%</span>
+                        <span class="metric-label">Message Similarity</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-value" id="metricAccounts">0</span>
+                        <span class="metric-label">Coordinated Accounts</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-value" id="metricCampaigns">0</span>
+                        <span class="metric-label">Active Campaigns</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="insight-card">
+            <div class="insight-header">
+                <div class="insight-icon sentiment">
+                    <i class="fas fa-heart-pulse"></i>
+                </div>
+                <h3>Sentiment Intelligence</h3>
+            </div>
+            <div class="insight-content">
+                <div class="sentiment-analysis">
+                    <div class="sentiment-item">
+                        <div class="sentiment-color positive"></div>
+                        <div class="sentiment-details">
+                            <span class="sentiment-label">Positive</span>
+                            <span class="sentiment-percentage" id="sentPos">0%</span>
+                        </div>
+                    </div>
+                    <div class="sentiment-item">
+                        <div class="sentiment-color neutral"></div>
+                        <div class="sentiment-details">
+                            <span class="sentiment-label">Neutral</span>
+                            <span class="sentiment-percentage" id="sentNeu">0%</span>
+                        </div>
+                    </div>
+                    <div class="sentiment-item">
+                        <div class="sentiment-color negative"></div>
+                        <div class="sentiment-details">
+                            <span class="sentiment-label">Negative</span>
+                            <span class="sentiment-percentage" id="sentNeg">0%</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="insight-note" id="insightNote">Real-time insights will appear here once data is collected.</p>
+            </div>
+        </div>
+        
+        <div class="insight-card">
+            <div class="insight-header">
+                <div class="insight-icon emotion">
+                    <i class="fas fa-theater-masks"></i>
+                </div>
+                <h3>Emotion Analysis</h3>
+            </div>
+            <div class="insight-content">
+                <div class="emotion-chart">
+                    <div class="emotion-bar">
+                        <span class="emotion-label">Anger</span>
+                        <div class="emotion-progress">
+                            <div class="emotion-fill" id="emoAnger" style="width: 0%"></div>
+                        </div>
+                        <span class="emotion-value" id="emoAngerVal">0%</span>
+                    </div>
+                    <div class="emotion-bar">
+                        <span class="emotion-label">Fear</span>
+                        <div class="emotion-progress">
+                            <div class="emotion-fill" id="emoFear" style="width: 0%"></div>
+                        </div>
+                        <span class="emotion-value" id="emoFearVal">0%</span>
+                    </div>
+                    <div class="emotion-bar">
+                        <span class="emotion-label">Sadness</span>
+                        <div class="emotion-progress">
+                            <div class="emotion-fill" id="emoSad" style="width: 0%"></div>
+                        </div>
+                        <span class="emotion-value" id="emoSadVal">0%</span>
+                    </div>
+                    <div class="emotion-bar">
+                        <span class="emotion-label">Joy</span>
+                        <div class="emotion-progress">
+                            <div class="emotion-fill" id="emoJoy" style="width: 0%"></div>
+                        </div>
+                        <span class="emotion-value" id="emoJoyVal">0%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="insight-card">
+            <div class="insight-header">
+                <div class="insight-icon keywords">
+                    <i class="fas fa-tags"></i>
+                </div>
+                <h3>Trending Keywords</h3>
+            </div>
+            <div class="insight-content">
+                <div class="keyword-cloud" id="keywordCloud"></div>
+            </div>
+        </div>
+        
+        <div class="insight-card">
+            <div class="insight-header">
+                <div class="insight-icon threats">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3>Threat Assessment</h3>
+            </div>
+            <div class="insight-content">
+                <div class="threat-level-indicator">
+                    <div class="threat-meter">
+                        <div class="threat-meter-fill" id="threatFill" style="width: 0%"></div>
+                    </div>
+                    <div class="threat-info">
+                        <span class="threat-status" id="threatStatus">LOW RISK</span>
+                        <span class="threat-score" id="threatScore">0.0/10</span>
+                    </div>
+                </div>
+                <ul class="threat-factors">
+                    <li><i class="fas fa-dot-circle"></i> Coordinated messaging patterns detected</li>
+                    <li><i class="fas fa-dot-circle"></i> Increased activity during sensitive periods</li>
+                    <li><i class="fas fa-dot-circle"></i> Cross-platform content synchronization</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="insight-card">
+            <div class="insight-header">
+                <div class="insight-icon translation">
+                    <i class="fas fa-language"></i>
+                </div>
+                <h3>Language Analysis</h3>
+            </div>
+            <div class="insight-content">
+                <div class="language-stats" id="languageStats"></div>
+            </div>
+        </div>
+
+        <div class="insight-card">
+            <div class="insight-header">
+                <div class="insight-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Coordinated Accounts</h3>
+            </div>
+            <div class="insight-content">
+                <div id="coordAccounts" class="activity-feed"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- AI Recommendations -->
+    <div class="recommendations-section">
+        <div class="section-header">
+            <h2><i class="fas fa-lightbulb"></i> AI Recommendations</h2>
+        </div>
+        
+        <div class="recommendations-grid">
+            <div class="recommendation-card priority-high">
+                <div class="recommendation-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="recommendation-content">
+                    <h4>Enhanced Monitoring Required</h4>
+                    <p>Implement real-time monitoring for accounts showing coordinated behavior patterns. Focus on Twitter handles with similar posting schedules.</p>
+                    <div class="recommendation-actions">
+                        <button class="btn btn-sm btn-primary">Implement</button>
+                        <button class="btn btn-sm btn-secondary">Learn More</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="recommendation-card priority-medium">
+                <div class="recommendation-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="recommendation-content">
+                    <h4>Keyword Expansion</h4>
+                    <p>Add emerging keywords to monitoring list: "constitutional crisis", "electoral fraud", "institutional capture".</p>
+                    <div class="recommendation-actions">
+                        <button class="btn btn-sm btn-primary">Add Keywords</button>
+                        <button class="btn btn-sm btn-secondary">Review</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="recommendation-card priority-low">
+                <div class="recommendation-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="recommendation-content">
+                    <h4>Historical Analysis</h4>
+                    <p>Compare current patterns with historical data from similar campaigns to identify evolution in tactics.</p>
+                    <div class="recommendation-actions">
+                        <button class="btn btn-sm btn-primary">Analyze</button>
+                        <button class="btn btn-sm btn-secondary">Schedule</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', async function() {
+        try {
+            const resp = await fetch('/api/insights-data');
+            if (!resp.ok) throw new Error('Failed to load insights');
+            const data = await resp.json();
+            // Summary + headline metrics
+            document.getElementById('insightSummary').textContent = data.summary || 'Insights ready.';
+            document.getElementById('metricSimilarity').textContent = (data.message_similarity || 0) + '%';
+            document.getElementById('metricAccounts').textContent = data.coordinated_accounts || 0;
+            document.getElementById('metricCampaigns').textContent = data.active_campaigns || 0;
+            // Sentiment
+            const totalSent = (data.sentiment.positive||0)+(data.sentiment.neutral||0)+(data.sentiment.negative||0);
+            const pct = v => totalSent? Math.round((v/totalSent)*100):0;
+            document.getElementById('sentPos').textContent = pct(data.sentiment.positive||0)+'%';
+            document.getElementById('sentNeu').textContent = pct(data.sentiment.neutral||0)+'%';
+            document.getElementById('sentNeg').textContent = pct(data.sentiment.negative||0)+'%';
+            // Emotions
+            const emoTotal = (data.emotions.anger||0)+(data.emotions.fear||0)+(data.emotions.sadness||0)+(data.emotions.joy||0);
+            const emoPct = v => emoTotal? Math.round((v/emoTotal)*100):0;
+            const setBar = (id, val) => { document.getElementById(id).style.width = val+'%'; document.getElementById(id+'Val').textContent = val+'%'; };
+            setBar('emoAnger', emoPct(data.emotions.anger||0));
+            setBar('emoFear', emoPct(data.emotions.fear||0));
+            setBar('emoSad', emoPct(data.emotions.sadness||0));
+            setBar('emoJoy', emoPct(data.emotions.joy||0));
+            // Threat
+            const score = (data.threat?.score)||0;
+            const label = (data.threat?.label)||'LOW';
+            document.getElementById('threatFill').style.width = Math.min(100, Math.round(score*10))+'%';
+            document.getElementById('threatStatus').textContent = label+' RISK';
+            document.getElementById('threatScore').textContent = score.toFixed(1) + '/10';
+            // Keywords
+            const cloud = document.getElementById('keywordCloud');
+            cloud.innerHTML = '';
+            (data.keywords||[]).forEach(({text, count}) => {
+                const span = document.createElement('span');
+                const level = count >= 10 ? 'high' : (count >=5 ? 'medium' : 'low');
+                span.className = 'keyword ' + level;
+                span.textContent = text;
+                cloud.appendChild(span);
+            });
+            // Languages
+            const lang = data.languages || {en:0,hi:0,other:0};
+            const langEl = document.getElementById('languageStats');
+            const makeLang = (flag, name, val) => `<div class="language-item"><span class="language-flag">${flag}</span><span class="language-name">${name}</span><span class="language-percentage">${val}</span></div>`;
+            const totalLang = (lang.en||0)+(lang.hi||0)+(lang.other||0);
+            const lp = v => totalLang? Math.round((v/totalLang)*100)+'%':'0%';
+            langEl.innerHTML = makeLang('🇺🇸','English', lp(lang.en||0)) + makeLang('🇮🇳','Hindi', lp(lang.hi||0)) + makeLang('🌐','Other', lp(lang.other||0));
+            // Note
+            document.getElementById('insightNote').textContent = 'Insights reflect the last 7 days of collected data.';
+
+            // Coordinated accounts list
+            const coord = data.coordinated_authors || [];
+            const coordEl = document.getElementById('coordAccounts');
+            coordEl.innerHTML = '';
+            coord.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'activity-item';
+                row.innerHTML = `
+                    <div class="activity-icon"><i class="fas fa-user-shield"></i></div>
+                    <div class="activity-content">
+                        <div class="activity-title">${item.author || 'Unknown'}</div>
+                        <div class="activity-meta">Suspicious posts: ${item.count}</div>
+                    </div>
+                    <div class="activity-score danger">${item.count}</div>
+                `;
+                coordEl.appendChild(row);
+            });
+        } catch (e) {
+            console.error('Insights load error', e);
+            showAlert('Failed to load insights', 'error');
+        }
+        
+        // Recommendation buttons
+        document.querySelectorAll('.recommendation-card .btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                showAlert('Action queued (demo).', 'info');
+            });
+        });
+    });
+</script>
+{% endblock %}

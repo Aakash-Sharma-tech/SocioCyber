@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Campaign Detection System{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <!-- Header Section -->
+    <div class="dashboard-header">
+        <div class="header-content">
+            <h1 class="dashboard-title">
+                <i class="fas fa-shield-alt"></i>
+                Campaign Detection Dashboard
+            </h1>
+            <p class="dashboard-subtitle">Real-time monitoring of propaganda and misinformation campaigns</p>
+            <div class="intro-text" style="margin-top: .5rem; color: var(--text-secondary); max-width: 900px;">
+                This dashboard continuously collects posts from Twitter, Reddit, and online news to detect potential anti-India campaigns.
+                It applies NLP and AI models to assess sentiment, toxicity, propaganda risk, and coordinated behavior patterns, presenting
+                a unified situation picture to support timely response and mitigation.
+            </div>
+        </div>
+        
+        <div class="header-actions">
+            <button id="collectDataBtn" class="btn btn-primary">
+                <i class="fas fa-download"></i>
+                Collect New Data
+            </button>
+            <button id="refreshBtn" class="btn btn-secondary">
+                <i class="fas fa-sync-alt"></i>
+                Refresh
+            </button>
+        </div>
+    </div>
+    
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+        <div class="stat-card" id="totalPostsCard">
+            <div class="stat-icon">
+                <i class="fas fa-comments"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-number" id="totalPosts">--</div>
+                <div class="stat-label">Total Posts</div>
+                <div class="stat-change positive" id="postsChange">+12%</div>
+            </div>
+        </div>
+        
+        <div class="stat-card" id="propagandaCard">
+            <div class="stat-icon danger">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-number" id="propagandaPercentage">--%</div>
+                <div class="stat-label">Propaganda Content</div>
+                <div class="stat-change negative" id="propagandaChange">+5%</div>
+            </div>
+        </div>
+        
+        <div class="stat-card" id="sentimentCard">
+            <div class="stat-icon warning">
+                <i class="fas fa-frown"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-number" id="negativeSentiment">--%</div>
+                <div class="stat-label">Negative Sentiment</div>
+                <div class="stat-change negative" id="sentimentChange">+8%</div>
+            </div>
+        </div>
+        
+        <div class="stat-card" id="suspiciousCard">
+            <div class="stat-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-number" id="suspiciousPosts">--</div>
+                <div class="stat-label">Suspicious Posts</div>
+                <div class="stat-change positive" id="suspiciousChange">-3%</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Charts Section -->
+    <div class="charts-grid">
+        <div class="chart-card">
+            <div class="chart-header">
+                <h3><i class="fas fa-chart-pie"></i> Sentiment Distribution</h3>
+                <div class="chart-actions">
+                    <button class="btn btn-sm" onclick="downloadChart('sentimentChart')">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="sentimentChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="chart-card">
+            <div class="chart-header">
+                <h3><i class="fas fa-chart-bar"></i> Platform Activity</h3>
+                <div class="chart-actions">
+                    <button class="btn btn-sm" onclick="downloadChart('platformChart')">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="platformChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="chart-card full-width">
+            <div class="chart-header">
+                <h3><i class="fas fa-chart-line"></i> Real-time Threat Level</h3>
+                <div class="threat-indicator">
+                    <span class="threat-level medium" id="threatLevel">MEDIUM</span>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="threatChart"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Activity -->
+    <div class="activity-section">
+        <div class="section-header">
+            <h2><i class="fas fa-clock"></i> Recent Activity</h2>
+            <button class="btn btn-sm" id="viewAllActivity">
+                View All <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+        
+        <div class="activity-feed" id="activityFeed"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

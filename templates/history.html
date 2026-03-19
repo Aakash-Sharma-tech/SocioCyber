@@ -1,0 +1,415 @@
+{% extends "base.html" %}
+
+{% block title %}History - Campaign Detection System{% endblock %}
+
+{% block content %}
+<div class="history-container">
+    <!-- Header -->
+    <div class="history-header">
+        <h1 class="history-title">
+            <i class="fas fa-history"></i>
+            Historical Analysis
+        </h1>
+        <p class="history-subtitle">Track propaganda campaigns and sentiment trends over time</p>
+        
+        <div class="history-controls">
+            <select id="timeRange" class="form-control">
+                <option value="7d">Last 7 Days</option>
+                <option value="30d" selected>Last 30 Days</option>
+                <option value="90d">Last 90 Days</option>
+                <option value="1y">Last Year</option>
+            </select>
+            <button id="exportHistory" class="btn btn-primary">
+                <i class="fas fa-download"></i>
+                Export Report
+            </button>
+        </div>
+    </div>
+    
+    <!-- Historical Trends -->
+    <div class="trends-section">
+        <div class="section-title">
+            <h2><i class="fas fa-chart-line"></i> Trend Analysis</h2>
+        </div>
+        
+        <div class="trends-grid">
+            <!-- Propaganda Trend -->
+            <div class="trend-card">
+                <div class="trend-header">
+                    <h3>Propaganda Activity</h3>
+                    <span class="trend-change negative">+23% this month</span>
+                </div>
+                <div class="trend-chart">
+                    <canvas id="propagandaTrendChart"></canvas>
+                </div>
+                <div class="trend-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Peak Day</span>
+                        <span class="stat-value">March 15</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Average Score</span>
+                        <span class="stat-value">0.67</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sentiment Trend -->
+            <div class="trend-card">
+                <div class="trend-header">
+                    <h3>Sentiment Evolution</h3>
+                    <span class="trend-change negative">-15% positivity</span>
+                </div>
+                <div class="trend-chart">
+                    <canvas id="sentimentTrendChart"></canvas>
+                </div>
+                <div class="trend-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Most Negative</span>
+                        <span class="stat-value">March 12</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Recovery Time</span>
+                        <span class="stat-value">3 days</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Platform Activity -->
+            <div class="trend-card">
+                <div class="trend-header">
+                    <h3>Platform Activity</h3>
+                    <span class="trend-change positive">+45% engagement</span>
+                </div>
+                <div class="trend-chart">
+                    <canvas id="platformTrendChart"></canvas>
+                </div>
+                <div class="trend-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Top Platform</span>
+                        <span class="stat-value">Twitter</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Growth Rate</span>
+                        <span class="stat-value">12%/week</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Campaign Timeline -->
+    <div class="timeline-section">
+        <div class="section-title">
+            <h2><i class="fas fa-timeline"></i> Campaign Timeline</h2>
+        </div>
+        
+        <div class="timeline-container">
+            <div class="timeline-item high-impact">
+                <div class="timeline-date">Mar 15, 2025</div>
+                <div class="timeline-content">
+                    <div class="timeline-icon danger">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="timeline-details">
+                        <h4>Coordinated Propaganda Campaign Peak</h4>
+                        <p>Massive spike in anti-India content across all platforms. 500+ coordinated posts detected with 87% message similarity.</p>
+                        <div class="timeline-metrics">
+                            <span class="metric">Propaganda Score: 0.91</span>
+                            <span class="metric">Affected Posts: 523</span>
+                            <span class="metric">Platforms: 3</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="timeline-item medium-impact">
+                <div class="timeline-date">Mar 12, 2025</div>
+                <div class="timeline-content">
+                    <div class="timeline-icon warning">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="timeline-details">
+                        <h4>Sentiment Decline Begins</h4>
+                        <p>Noticeable shift towards negative sentiment in India-related content. Early indicators of coordinated activity.</p>
+                        <div class="timeline-metrics">
+                            <span class="metric">Sentiment Drop: 35%</span>
+                            <span class="metric">Duration: 6 hours</span>
+                            <span class="metric">Recovery: 72 hours</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="timeline-item low-impact">
+                <div class="timeline-date">Mar 08, 2025</div>
+                <div class="timeline-content">
+                    <div class="timeline-icon info">
+                        <i class="fas fa-shield-check"></i>
+                    </div>
+                    <div class="timeline-details">
+                        <h4>Counter-Narrative Campaign</h4>
+                        <p>Significant increase in fact-checking and positive content. Successful mitigation of earlier propaganda attempts.</p>
+                        <div class="timeline-metrics">
+                            <span class="metric">Positive Content: +67%</span>
+                            <span class="metric">Fact-checks: 89</span>
+                            <span class="metric">Reach: 2.3M</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="timeline-item medium-impact">
+                <div class="timeline-date">Mar 05, 2025</div>
+                <div class="timeline-content">
+                    <div class="timeline-icon warning">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="timeline-details">
+                        <h4>Account Network Discovery</h4>
+                        <p>AI analysis identified a network of 47 suspicious accounts with coordinated posting patterns.</p>
+                        <div class="timeline-metrics">
+                            <span class="metric">Accounts: 47</span>
+                            <span class="metric">Coordination: 0.73</span>
+                            <span class="metric">Age: 2-6 months</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Comparative Analysis -->
+    <div class="comparison-section">
+        <div class="section-title">
+            <h2><i class="fas fa-balance-scale"></i> Comparative Analysis</h2>
+        </div>
+        
+        <div class="comparison-grid">
+            <div class="comparison-card">
+                <div class="comparison-header">
+                    <h3>This Month vs Last Month</h3>
+                </div>
+                <div class="comparison-metrics">
+                    <div class="comparison-metric">
+                        <span class="metric-label">Propaganda Posts</span>
+                        <div class="metric-comparison">
+                            <span class="current">523</span>
+                            <span class="previous">425</span>
+                            <span class="change negative">+23%</span>
+                        </div>
+                    </div>
+                    <div class="comparison-metric">
+                        <span class="metric-label">Negative Sentiment</span>
+                        <div class="metric-comparison">
+                            <span class="current">45%</span>
+                            <span class="previous">38%</span>
+                            <span class="change negative">+18%</span>
+                        </div>
+                    </div>
+                    <div class="comparison-metric">
+                        <span class="metric-label">Response Time</span>
+                        <div class="metric-comparison">
+                            <span class="current">2.3h</span>
+                            <span class="previous">4.1h</span>
+                            <span class="change positive">-44%</span>
+                        </div>
+                    </div>
+                    <div class="comparison-metric">
+                        <span class="metric-label">Detection Rate</span>
+                        <div class="metric-comparison">
+                            <span class="current">91%</span>
+                            <span class="previous">78%</span>
+                            <span class="change positive">+17%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="comparison-card">
+                <div class="comparison-header">
+                    <h3>Platform Performance</h3>
+                </div>
+                <div class="platform-performance">
+                    <div class="performance-item">
+                        <div class="platform-info">
+                            <i class="fab fa-twitter"></i>
+                            <span>Twitter</span>
+                        </div>
+                        <div class="performance-metrics">
+                            <div class="performance-bar">
+                                <div class="bar-fill twitter" style="width: 78%"></div>
+                            </div>
+                            <span class="performance-score">78%</span>
+                        </div>
+                    </div>
+                    <div class="performance-item">
+                        <div class="platform-info">
+                            <i class="fab fa-reddit"></i>
+                            <span>Reddit</span>
+                        </div>
+                        <div class="performance-metrics">
+                            <div class="performance-bar">
+                                <div class="bar-fill reddit" style="width: 65%"></div>
+                            </div>
+                            <span class="performance-score">65%</span>
+                        </div>
+                    </div>
+                    <div class="performance-item">
+                        <div class="platform-info">
+                            <i class="fas fa-newspaper"></i>
+                            <span>News</span>
+                        </div>
+                        <div class="performance-metrics">
+                            <div class="performance-bar">
+                                <div class="bar-fill news" style="width: 52%"></div>
+                            </div>
+                            <span class="performance-score">52%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Flagged Posts -->
+    <div class="activity-section" style="margin-top:2rem;">
+        <div class="section-header">
+            <h2><i class="fas fa-flag"></i> Flagged Posts (Propaganda)</h2>
+        </div>
+        <div class="activity-feed" id="flaggedFeed"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeHistoryCharts();
+        setupHistoryControls();
+    });
+    
+    async function initializeHistoryCharts() {
+        try {
+            const res = await fetch('/api/history-data');
+            if (!res.ok) throw new Error('Failed to load history data');
+            const data = await res.json();
+            const t = data.trends || {labels:[], propaganda_avg:[], sentiment:{}, platform:{}};
+
+            // Propaganda trend chart
+            const propagandaCtx = document.getElementById('propagandaTrendChart').getContext('2d');
+            new Chart(propagandaCtx, {
+                type: 'line',
+                data: {
+                    labels: t.labels,
+                    datasets: [{
+                        label: 'Propaganda Score',
+                        data: t.propaganda_avg,
+                        borderColor: '#ff6b6b',
+                        backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, max: 1 } }
+                }
+            });
+
+            // Sentiment trend chart
+            const sentimentCtx = document.getElementById('sentimentTrendChart').getContext('2d');
+            new Chart(sentimentCtx, {
+                type: 'line',
+                data: {
+                    labels: t.labels,
+                    datasets: [
+                        { label: 'Positive', data: t.sentiment.positive || [], borderColor: '#4ecdc4', backgroundColor: 'rgba(78, 205, 196, 0.3)', tension: 0.4 },
+                        { label: 'Negative', data: t.sentiment.negative || [], borderColor: '#ff6b6b', backgroundColor: 'rgba(255, 107, 107, 0.3)', tension: 0.4 },
+                        { label: 'Neutral',  data: t.sentiment.neutral  || [], borderColor: '#feca57', backgroundColor: 'rgba(254, 202, 87, 0.3)',  tension: 0.4 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+
+            // Platform trend chart
+            const platformCtx = document.getElementById('platformTrendChart').getContext('2d');
+            const platDatasets = Object.keys(t.platform || {}).map((name, idx) => ({
+                label: name,
+                data: t.platform[name] || [],
+                backgroundColor: ['#1DA1F2','#FF4500','#00D100','#8a3ab9','#1877f2','#0088cc'][idx % 6]
+            }));
+            new Chart(platformCtx, {
+                type: 'bar',
+                data: {
+                    labels: t.labels,
+                    datasets: platDatasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: true, position: 'bottom' } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        } catch (e) {
+            console.error('History charts load error', e);
+            showAlert('Failed to load history charts', 'error');
+        }
+    }
+    
+    function setupHistoryControls() {
+        // Time range selector
+        document.getElementById('timeRange').addEventListener('change', function() {
+            const range = this.value;
+            showAlert(`Loading data for ${range}...`, 'info');
+            // In a real implementation, this would reload the charts with new data
+        });
+        
+        // Export history button
+        document.getElementById('exportHistory').addEventListener('click', function() {
+            showAlert('Generating historical report...', 'info');
+            // In a real implementation, this would generate and download a report
+        });
+    }
+
+    // Load flagged posts from backend
+    document.addEventListener('DOMContentLoaded', async function() {
+        try {
+            const resp = await fetch('/api/history-data');
+            if (!resp.ok) return;
+            const data = await resp.json();
+            const list = data.flagged || [];
+            const container = document.getElementById('flaggedFeed');
+            if (!container) return;
+            container.innerHTML = '';
+            list.forEach(item => {
+                const icon = item.platform === 'Twitter' ? 'fab fa-twitter' : (item.platform === 'Reddit' ? 'fab fa-reddit' : 'fas fa-newspaper');
+                const score = (item.scores?.propaganda ?? 0).toFixed(2);
+                const scoreClass = (item.scores?.propaganda ?? 0) > 0.7 ? 'danger' : 'warning';
+                const el = document.createElement('div');
+                el.className = 'activity-item';
+                el.innerHTML = `
+                    <div class="activity-icon"><i class="${icon}"></i></div>
+                    <div class="activity-content">
+                        <div class="activity-title">${(item.content || '').slice(0, 140)}${(item.content||'').length>140?'…':''}</div>
+                        <div class="activity-meta">${item.platform} • ${new Date(item.timestamp).toLocaleString()}</div>
+                    </div>
+                    <div class="activity-score ${scoreClass}">${score}</div>
+                `;
+                el.addEventListener('click', () => { if (item.url) window.open(item.url, '_blank'); });
+                container.appendChild(el);
+            });
+        } catch (e) {
+            console.error('Failed to load flagged posts', e);
+        }
+    });
+</script>
+{% endblock %}
