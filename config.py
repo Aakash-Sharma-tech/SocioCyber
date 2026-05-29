@@ -25,6 +25,10 @@ class Config:
         SQLALCHEMY_DATABASE_URI = f"sqlite:///{_db_path.as_posix()}"
         _DB_PATH = _db_path
     elif _ENV_DB_URL:
+        # Neon / Render database URLs might start with 'postgres://'.
+        # SQLAlchemy 1.4+ requires 'postgresql://' instead.
+        if _ENV_DB_URL.startswith('postgres://'):
+            _ENV_DB_URL = _ENV_DB_URL.replace('postgres://', 'postgresql://', 1)
         SQLALCHEMY_DATABASE_URI = _ENV_DB_URL
         _DB_PATH = _DEFAULT_DB_PATH
     else:
